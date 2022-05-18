@@ -1,8 +1,2 @@
-import argument_parser as cli_parser
-
-def main():
-    print("test")
-    cli_parser.parse_args()
-
-if __name__ == '__main__':
-    main()
+def search(binary):
+    print("[+] Analyzing binary" {name}).format(binary)
