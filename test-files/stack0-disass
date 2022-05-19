@@ -1,0 +1,33 @@
+in>:
+    1189:       f3 0f 1e fa             endbr64
+    118d:       55                      push   rbp
+    118e:       48 89 e5                mov    rbp,rsp
+    1191:       48 83 ec 70             sub    rsp,0x70
+    1195:       89 7d 9c                mov    DWORD PTR [rbp-0x64],edi
+    1198:       48 89 75 90             mov    QWORD PTR [rbp-0x70],rsi
+    119c:       64 48 8b 04 25 28 00    mov    rax,QWORD PTR fs:0x28
+    11a3:       00 00
+    11a5:       48 89 45 f8             mov    QWORD PTR [rbp-0x8],rax
+    11a9:       31 c0                   xor    eax,eax
+    11ab:       c7 45 ac 00 00 00 00    mov    DWORD PTR [rbp-0x54],0x0
+    11b2:       48 8d 45 b0             lea    rax,[rbp-0x50]
+    11b6:       48 89 c7                mov    rdi,rax
+    11b9:       b8 00 00 00 00          mov    eax,0x0
+    11be:       e8 cd fe ff ff          call   1090 <gets@plt>
+    11c3:       8b 45 ac                mov    eax,DWORD PTR [rbp-0x54]
+    11c6:       85 c0                   test   eax,eax
+    11c8:       74 0e                   je     11d8 <main+0x4f>
+    11ca:       48 8d 3d 37 0e 00 00    lea    rdi,[rip+0xe37]        # 2008 <_IO_stdin_used+0x8>
+    11d1:       e8 9a fe ff ff          call   1070 <puts@plt>
+    11d6:       eb 0c                   jmp    11e4 <main+0x5b>
+    11d8:       48 8d 3d 52 0e 00 00    lea    rdi,[rip+0xe52]        # 2031 <_IO_stdin_used+0x31>
+    11df:       e8 8c fe ff ff          call   1070 <puts@plt>
+    11e4:       b8 00 00 00 00          mov    eax,0x0
+    11e9:       48 8b 55 f8             mov    rdx,QWORD PTR [rbp-0x8]
+    11ed:       64 48 33 14 25 28 00    xor    rdx,QWORD PTR fs:0x28
+    11f4:       00 00
+    11f6:       74 05                   je     11fd <main+0x74>
+    11f8:       e8 83 fe ff ff          call   1080 <__stack_chk_fail@plt>
+    11fd:       c9                      leave
+    11fe:       c3                      ret
+    11ff:       90                      nop

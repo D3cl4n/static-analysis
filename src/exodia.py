@@ -3,7 +3,7 @@ import analyzer
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--binary", type=str, required=True)
+    parser.add_argument("--binary", help="binary file to analyze", type=str, required=True)
     args = parser.parse_args()
 
     analyzer.search(args.binary)
