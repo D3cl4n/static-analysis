@@ -9,10 +9,11 @@ class Func:
 
     def check_prologue(self, idx):
         is_prologue = [0, 0]
-        if self.instructions[idx+1].mnemonic == "mov" and self.instructions[idx+1].op_str == "rbp, rsp":
-            print(self.instructions[idx+2].mnemonic + "\t" + self.instructions[idx+2].op_str)
+        mov_instr = self.instructions[idx+1]
+        sub_instr = self.instructions[idx+2]
+        if mov_instr.mnemonic == "mov" and mov_instr.op_str == "rbp, rsp":
             is_prologue[0] = 1
-        if self.instructions[idx+2].mnemonic == "sub" and "rsp, 0x" in self.instructions[idx+2].op_str:
+        if sub_instr.mnemonic == "sub" and "rsp, 0x" in sub_instr.op_str:
             is_prologue[1] = 1
         
         if is_prologue[0] == 1 and is_prologue[1] == 1:
