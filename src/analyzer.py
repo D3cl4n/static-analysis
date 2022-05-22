@@ -2,8 +2,21 @@ import function_data
 import re
 from capstone import *
 from elftools.elf.elffile import ELFFile
+from elftools.elf.relocation import RelocationSection
 
-def populate_plt_map(data, addr):
+def find_relocations(map, binary):
+    with open(binary, "rb") as f:
+        e = ELFFile(f)
+        for section in e.iter_sections():
+            if isinstance(section, RelocationSection):
+                print(section.name)
+                symbol_table = e.get_section(section["sh_link"])
+                for relocation in section.iter_relocations():
+                    symbol = symbol_table.get_symbol(relocation["r_info_sym"])
+                    addr = hex(relocation["r_offset"])
+                    print(symbol.name + "\t" + addr)
+
+def populate_plt_map(data, addr, binary):
     ret_map = {}
     cnt = 0
     flag = 0
@@ -28,6 +41,8 @@ def populate_plt_map(data, addr):
             symbol_offset = tmp.group(0)
 
         cnt += 1
+
+    ret_map = find_relocations(ret_map, binary)
     return ret_map
             
 
@@ -45,7 +60,7 @@ def search(binary):
         addr = code["sh_addr"]
         plt_section = elf.get_section_by_name(".plt.sec")
         plt_data = plt_section.data()
-        plt_map = populate_plt_map(plt_data, addr)
+        plt_map = populate_plt_map(plt_data, addr, binary)
         print(plt_map)
 
     func = function_data.Func([])
