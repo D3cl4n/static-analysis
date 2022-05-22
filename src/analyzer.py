@@ -15,6 +15,9 @@ def find_relocations(map, binary):
                     symbol = symbol_table.get_symbol(relocation["r_info_sym"])
                     addr = hex(relocation["r_offset"])
                     print(symbol.name + "\t" + addr)
+                    if map.get(addr) != None:
+                        map[addr] = symbol.name
+    return map
 
 def populate_plt_map(data, addr, binary):
     ret_map = {}
@@ -30,7 +33,7 @@ def populate_plt_map(data, addr, binary):
         if flag == 1:
             symbol_offset = int(symbol_offset, 16)
             symbol_addr = byte.address + symbol_offset
-            ret_map.update({cnt : hex(symbol_addr)})
+            ret_map.update({hex(symbol_addr) : 1})
             flag = 0
             symbol_offset = 0x0
             instr_offset = 0x0
@@ -60,7 +63,7 @@ def search(binary):
         addr = code["sh_addr"]
         plt_section = elf.get_section_by_name(".plt.sec")
         plt_data = plt_section.data()
-        plt_map = populate_plt_map(plt_data, addr, binary)
+        plt_map = populate_plt_map(plt_data, 0x1070, binary)
         print(plt_map)
 
     func = function_data.Func([])
