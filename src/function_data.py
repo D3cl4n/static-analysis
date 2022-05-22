@@ -24,7 +24,7 @@ class Func:
         return 0, 0
 
     def combine(self, element):
-        return element.mnemonic + "\t" + element.op_str
+        return str(hex(element.address)) + "\t" + element.mnemonic + "\t" + element.op_str
 
     def find_frame(self):
         cnt = 0
