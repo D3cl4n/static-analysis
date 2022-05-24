@@ -1,4 +1,5 @@
 import function_data
+import report
 import re
 from capstone import *
 from elftools.elf.elffile import ELFFile
@@ -51,6 +52,7 @@ def populate_plt_map(data, addr, binary):
 
 def search(binary):
     print("[+] Analyzing binary: {}".format(binary))
+    notable_functions = {"gets" : "stack overflow"}
 
     opcodes = b""
     addr = 0
@@ -72,4 +74,8 @@ def search(binary):
         func.instructions.append(byte)
     
     func.find_frame()
-    func.print_instructions()
+    for function in notable_functions.keys():
+        if function in plt_map.values():
+            new_bug = report.Bug(function, notable_functions[function], func.stack_frame)
+            new_bug.print_report()
+
